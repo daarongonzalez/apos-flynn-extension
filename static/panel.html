@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flynn</title>
+<link rel="stylesheet" href="panel.css">
+</head>
+<body>
+<header>
+  <div class="brand">
+    <img src="icons/32.png" alt="" width="20" height="20">
+    <h1>Flynn</h1>
+  </div>
+  <button id="toggle" class="toggle" type="button" aria-pressed="false" hidden><span class="switch" aria-hidden="true"></span>Edit mode</button>
+</header>
+
+<section id="idle" class="idle" hidden>
+  <h2>Open a page to edit</h2>
+  <p id="idle-text">Go to the site you are working on, then click the Flynn icon in the toolbar.</p>
+</section>
+
+<main id="main" hidden>
+  <p id="page" class="page"></p>
+  <div class="tabs" role="tablist">
+    <button type="button" role="tab" id="tab-changes" aria-selected="true" aria-controls="pane-changes">Changes <span id="count"></span></button>
+    <button type="button" role="tab" id="tab-file" aria-selected="false" aria-controls="pane-file">Change file</button>
+  </div>
+  <div id="pane-changes" class="pane" role="tabpanel" aria-labelledby="tab-changes"></div>
+  <div id="pane-file" class="pane" role="tabpanel" aria-labelledby="tab-file" hidden>
+    <p class="hint">A plain-language record of your edits. Paste it into Claude Code, or share it with whoever updates the site.</p>
+    <pre id="file" tabindex="0"></pre>
+  </div>
+</main>
+
+<footer id="footer" hidden>
+  <button id="copy" class="primary" type="button">Copy change file</button>
+  <button id="discard" class="quiet" type="button">Discard all</button>
+</footer>
+<script src="panel.js"></script>
+</body>
+</html>

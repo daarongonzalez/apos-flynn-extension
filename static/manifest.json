@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Flynn",
+  "version": "0.1.0",
+  "description": "Rewrite the words on any site you are building, right on the page.",
+  "minimum_chrome_version": "116",
+  "icons": { "16": "icons/16.png", "32": "icons/32.png", "48": "icons/48.png", "128": "icons/128.png" },
+  "action": {
+    "default_title": "Edit this page with Flynn",
+    "default_icon": { "16": "icons/16.png", "32": "icons/32.png" }
+  },
+  "background": { "service_worker": "background.js" },
+  "side_panel": { "default_path": "panel.html" },
+  "permissions": ["activeTab", "scripting", "sidePanel", "storage"]
+}

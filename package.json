@@ -1,0 +1,19 @@
+{
+  "name": "flynn-extension",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Flynn: rewrite the words on any site you are building, right on the page.",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "watch": "node build.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test test/*.test.ts",
+    "test:browser": "npm run build && node test/browser.mjs"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.287",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.6.3"
+  }
+}
