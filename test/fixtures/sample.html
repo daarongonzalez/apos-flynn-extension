@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Fieldnote | Sample site</title>
+<style>
+  body { font: 16px/1.5 system-ui, sans-serif; margin: 0; padding: 32px; max-width: 760px; color: #111; }
+  nav { display: flex; gap: 24px; align-items: center; margin-bottom: 40px; }
+  nav ul { display: flex; gap: 16px; list-style: none; margin: 0; padding: 0; }
+  h1 { font-size: 40px; line-height: 1.1; margin: 0 0 12px; }
+  .btn { background: #17499f; color: #fff; border: 0; border-radius: 999px; padding: 10px 20px; font: inherit; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  pre { background: #eee; padding: 12px; }
+</style>
+</head>
+<body>
+<nav>
+  <strong>Fieldnote</strong>
+  <ul>
+    <li><a id="nav-programs" href="other.html">Programs</a></li>
+    <li><a href="other.html">About</a></li>
+  </ul>
+</nav>
+<h1 id="headline">Unlock the power of AI-driven learning for your team</h1>
+<p id="lead">Leverage <strong>cutting-edge</strong> solutions to <a href="other.html">transform your workforce</a> today.</p>
+<button id="cta" class="btn" onclick="window.clicked = true"><span>Get Started</span></button>
+<h2>Why teams choose us</h2>
+<div class="cards">
+  <div><h3>Hands-on workshops</h3><p>Measurable results</p></div>
+  <div><h3>Measurable results</h3><p id="dup">Measurable results</p></div>
+</div>
+<pre>npm install fieldnote</pre>
+<p style="display:none">Hidden text</p>
+<form><label>Email <input type="email"></label></form>
+</body>
+</html>
