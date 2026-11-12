@@ -58,7 +58,8 @@ assert.equal(s.editing, true);
 assert.equal(s.changes.length, 0);
 console.log('text found:', s.unitCount);
 assert.equal(s.unitCount, 12, 'brand + 2 links + h1 + lead + button + h2 + 4 card texts + label');
-await page.screenshot({ path: 'test/output/1-edit-mode.png' });
+await page.hover('h2');
+await page.screenshot({ path: 'test/output/1-hover.png' });
 
 // Type over the headline.
 await page.click('#headline');
@@ -113,6 +114,14 @@ await page.keyboard.type('Results you can show');
 await page.keyboard.press('Enter');
 s = await state();
 assert.equal(s.changes.length, 4);
+const dup = s.changes[3];
+assert.deepEqual([dup.occurrence, dup.total], [2, 3]);
+assert.equal(dup.where.element, '<p id="dup">');
+assert.equal(dup.where.path, 'p#dup');
+assert.equal(dup.where.heading, 'Measurable results');
+assert.equal(s.changes[0].where.path, 'h1#headline');
+assert.equal(s.changes[2].where.element, '<p id="lead">');
+await page.mouse.move(100, 280);
 await page.screenshot({ path: 'test/output/2-edited.png' });
 await page.waitForTimeout(300);
 
@@ -148,7 +157,7 @@ await panel.addInitScript(() => {
   const sample = {
     url: 'https://fieldnote-training.example/', title: 'Fieldnote', editing: true, unitCount: 12,
     changes: [
-      { id: 'a', label: 'H1', before: 'Unlock the power of AI-driven learning for your team', after: 'Your team already has AI.', missing: false },
+      { id: 'a', label: 'H1', before: 'Unlock the power of AI-driven learning for your team', after: 'Your team already has AI.', missing: false, occurrence: 0, total: 1, where: { element: '<h1 class="hero-title">', path: 'main > section.hero > h1.hero-title', area: 'Main content' } },
       { id: 'b', label: 'Button', before: 'Get Started', after: 'Book a call', missing: true },
     ],
   };
@@ -163,7 +172,7 @@ await panel.waitForSelector('.change');
 assert.equal(await panel.locator('.change').count(), 2);
 await panel.screenshot({ path: 'test/output/3-panel.png' });
 await panel.click('#tab-file');
-assert.match(await panel.locator('#file').innerText(), /## 2\. Button\nBefore: Get Started\nAfter: {2}Book a call/);
+assert.match(await panel.locator('#file').innerText(), /## 1\. Heading 1 \(H1\)\nElement: `<h1 class="hero-title">`\nLocation: Main content\nPath: `main > section\.hero > h1\.hero-title`\nBefore/);
 
 await browser.close();
 server.close();

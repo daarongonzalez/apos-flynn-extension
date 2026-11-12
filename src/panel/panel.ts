@@ -1,7 +1,7 @@
 // The side panel: shows the list of changes for the page in the current tab and
 // holds the controls. The page itself keeps the edits; the panel only displays them.
 
-import { buildChangeFile } from '../core/changeFile.ts';
+import { buildChangeFile, describeEntry } from '../core/changeFile.ts';
 import type { PageState, PanelMessage, StateMessage } from '../core/types.ts';
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -63,7 +63,7 @@ function render(): void {
     const hint = !state.editing
       ? 'Edit mode is off. Turn it on to change the text on this page.'
       : state.unitCount
-        ? 'No changes yet. Click any outlined text on the page and start typing.'
+        ? 'No changes yet. Hover over any text on the page, then click it and start typing.'
         : 'Flynn found no text to edit on this page.';
     paneChanges.appendChild(el('p', 'empty', hint));
   }
@@ -84,10 +84,12 @@ function render(): void {
     actions.appendChild(undo);
     top.appendChild(actions);
     card.append(top, el('div', 'before', change.before), el('div', 'after', change.after));
+    const details = describeEntry(change).map((line) => line.replace(/`/g, ''));
+    if (details.length) card.appendChild(el('div', 'where', details.join('\n')));
     if (change.missing) card.appendChild(el('div', 'missing', 'This text is no longer on the page. Your edit is still saved.'));
     paneChanges.appendChild(card);
   }
-  file.textContent = buildChangeFile(state.url, changes);
+  file.textContent = buildChangeFile(state.url, changes, state.title);
 }
 
 async function refresh(): Promise<void> {
@@ -112,7 +114,7 @@ tabs.forEach((tab) =>
 copy.addEventListener('click', async () => {
   if (!state) return;
   try {
-    await navigator.clipboard.writeText(buildChangeFile(state.url, state.changes));
+    await navigator.clipboard.writeText(buildChangeFile(state.url, state.changes, state.title));
     copy.textContent = 'Copied';
   } catch {
     // Clipboard access was refused: show the file so it can be copied by hand.

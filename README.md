@@ -6,10 +6,10 @@ This is the first iteration. It covers editing on the page and producing a chang
 
 ## What it does today
 
-- **Select.** Click the Flynn icon and every piece of text gets an outline and a label: H1, Paragraph, Button, Link and so on.
+- **Select.** Click the Flynn icon, then move your pointer over the page. The text under it gets an outline and a label: H1, Paragraph, Button, Link and so on.
 - **Type.** Click any outlined text and rewrite it in place. Enter keeps the change, Escape cancels it.
 - **Review.** The side panel lists each change with before and after, with Show and Undo.
-- **Copy.** One button copies a plain-language change file.
+- **Copy.** One button copies a change file. For each edit it names the element, where it sits on the page, and the text before and after.
 - **Drafts.** Edits are saved in your browser and return when you reload the page.
 
 Bold text and links inside a sentence stay as they are while you change the words around them. While edit mode is on, links and buttons on the page do not fire.

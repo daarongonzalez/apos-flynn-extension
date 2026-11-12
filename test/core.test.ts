@@ -23,10 +23,52 @@ test('change file lists every edit with before and after', () => {
   ]);
   assert.equal(
     file,
-    '# Copy changes\nPage: https://example.com/\nChanges: 2\n\n## 1. H1\nBefore: Old headline\nAfter:  New headline\n\n## 2. Button\nBefore: Get Started\nAfter:  Book a call\n',
+    '# Copy changes\nPage: https://example.com/\nChanges: 2\n\n## 1. Heading 1 (H1)\nBefore: Old headline\nAfter:  New headline\n\n## 2. Button\nBefore: Get Started\nAfter:  Book a call\n',
   );
 });
 
 test('change file with no edits', () => {
   assert.equal(buildChangeFile('https://example.com/', []), '# Copy changes\nPage: https://example.com/\nChanges: 0\n');
+});
+
+test('change file describes which element each edit belongs to', () => {
+  const file = buildChangeFile(
+    'https://example.com/',
+    [
+      {
+        label: 'Link',
+        before: 'Learn more',
+        after: 'See the programs',
+        occurrence: 1,
+        total: 3,
+        where: {
+          element: '<a class="cta" href="/programs">',
+          path: 'main > section.hero > a.cta',
+          area: 'Main content',
+          heading: 'Why teams choose us',
+          href: '/programs',
+        },
+      },
+    ],
+    'Example',
+  );
+  assert.equal(
+    file,
+    [
+      '# Copy changes',
+      'Page: https://example.com/',
+      'Page title: Example',
+      'Changes: 1',
+      '',
+      '## 1. Link',
+      'Element: `<a class="cta" href="/programs">`',
+      'Location: Main content, under the heading "Why teams choose us"',
+      'Path: `main > section.hero > a.cta`',
+      'Links to: /programs',
+      'Note: this text appears 3 times on the page. This is the 2nd.',
+      'Before: Learn more',
+      'After:  See the programs',
+      '',
+    ].join('\n'),
+  );
 });
