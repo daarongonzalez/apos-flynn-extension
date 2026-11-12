@@ -1,6 +1,7 @@
 // Runs inside the page being edited. Finds the text, lets the user rewrite it in
 // place, keeps the list of changes, and saves drafts in the browser.
 
+import { describe } from '../core/describe.ts';
 import { detect, labelFor } from '../core/detect.ts';
 import { knownElements, readParts, stripUnknown, writeParts } from '../core/parts.ts';
 import { joinParts, sameParts } from '../core/text.ts';
@@ -100,6 +101,10 @@ function start(): void {
       if (!unit) continue;
       unit.html = unit.el.innerHTML;
       unit.draft = draft;
+      // Refresh the description in case the page was rearranged since the edit was made.
+      draft.where = describe(unit.el);
+      draft.total = candidates.length;
+      draft.occurrence = candidates.indexOf(unit);
       applyDraft(unit, draft);
     }
   }
@@ -181,6 +186,7 @@ function start(): void {
       return;
     }
     const text = joinParts(unit.original);
+    const twins = units.filter((other) => joinParts(other.original) === text);
     const draft: Draft = unit.draft ?? {
       id: crypto.randomUUID(),
       label: unit.label,
@@ -188,7 +194,9 @@ function start(): void {
       after: current,
       beforeHTML: unit.html ?? '',
       afterHTML: '',
-      occurrence: Math.max(0, units.filter((other) => joinParts(other.original) === text).indexOf(unit)),
+      occurrence: Math.max(0, twins.indexOf(unit)),
+      total: twins.length,
+      where: describe(unit.el),
     };
     draft.after = current;
     draft.afterHTML = unit.el.innerHTML;
@@ -237,6 +245,9 @@ function start(): void {
         before: joinParts(draft.before),
         after: joinParts(draft.after),
         missing: !unitOf(draft.id),
+        occurrence: draft.occurrence,
+        total: draft.total,
+        where: draft.where,
       })),
     };
   }
@@ -256,8 +267,9 @@ function start(): void {
       frame = 0;
       overlay.setVisible(editing);
       if (!editing) return;
+      // Only the text under the pointer is outlined, plus anything being edited or already changed.
       overlay.draw(
-        units.map((unit) => unit.el),
+        units.filter((unit) => unit === hover || unit === active || unit === flash || unit.draft).map((unit) => unit.el),
         (el) => {
           const unit = registry.get(el)!;
           return {

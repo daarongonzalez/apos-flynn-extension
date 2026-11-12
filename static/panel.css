@@ -46,6 +46,7 @@ main { flex: 1; min-height: 0; display: flex; flex-direction: column; }
 .link { padding: 2px 5px; border: 0; background: none; color: var(--link); font-size: 12px; font-weight: 600; }
 .before { color: var(--muted); text-decoration: line-through; overflow-wrap: anywhere; }
 .after { font-weight: 600; overflow-wrap: anywhere; }
+.where { padding-top: 6px; border-top: 1px solid var(--line); color: var(--muted); font: 400 11px/1.5 ui-monospace, Menlo, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
 .missing { color: var(--warn); font-size: 12px; font-weight: 600; }
 
 pre { margin: 0; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); font: 400 12px/1.55 ui-monospace, Menlo, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }

@@ -3,9 +3,10 @@
 
 const CSS = `
 .layer { position: fixed; inset: 0; pointer-events: none; font: 600 10px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-.box { position: absolute; top: 0; left: 0; box-sizing: border-box; border: 1.5px dashed #fdb515; border-radius: 4px; }
-.box.hover { background: rgba(253, 181, 21, 0.14); }
-.box.changed { border: 2px solid #fdb515; background: rgba(253, 181, 21, 0.12); }
+.box { position: absolute; top: 0; left: 0; box-sizing: border-box; border: 1.5px solid rgba(253, 181, 21, 0.7); border-radius: 4px; }
+.box .chip { display: none; }
+.box.hover { border: 2px solid #fdb515; background: rgba(253, 181, 21, 0.14); }
+.box.hover .chip, .box.editing .chip, .box.flash .chip { display: block; }
 .box.editing { border: 2px solid #17499f; background: none; box-shadow: 0 0 0 3px rgba(23, 73, 159, 0.2); }
 .box.flash { box-shadow: 0 0 0 6px rgba(253, 181, 21, 0.55); transition: box-shadow 0.2s; }
 .chip { position: absolute; left: -2px; top: -15px; padding: 2px 4px; border-radius: 3px; background: #fdb515; color: #1b1400; white-space: nowrap; letter-spacing: 0.02em; }

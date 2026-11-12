@@ -1,3 +1,5 @@
+import type { Description } from './describe.ts';
+
 /** One saved edit. `before` and `after` are the text pieces of the element (see parts.ts). */
 export interface Draft {
   id: string;
@@ -8,6 +10,10 @@ export interface Draft {
   afterHTML: string;
   /** Position among elements on the page that share the same original text. */
   occurrence: number;
+  /** How many elements on the page share the same original text. */
+  total?: number;
+  /** Where the element sits on the page. Missing on drafts saved by earlier versions. */
+  where?: Description;
 }
 
 export interface ChangeView {
@@ -17,6 +23,9 @@ export interface ChangeView {
   after: string;
   /** The saved edit could not be found on the page as it is now. */
   missing: boolean;
+  occurrence: number;
+  total?: number;
+  where?: Description;
 }
 
 export interface PageState {
